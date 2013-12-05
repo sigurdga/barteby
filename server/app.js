@@ -27,6 +27,8 @@ app.get('/auth/google', app.passport.authenticate('google', { scope: [
         ]}), function(req, res){});
 app.get('/auth/google/callback', app.passport.authenticate('google', { failureRedirect: '/login' }), core_routes.google_callback);
 
+var data_routes = require('./routes/data');
+app.get('/api/data', data_routes.index);
 // -- exports
 module.exports = app;
 
