@@ -58,7 +58,7 @@ module.exports.index = function(req, res) {
         var month = months[date_elements[1]];
         var year = 2013;
         return year + '-' + month + '-' + day;
-    };
+    }
 
     fs.readFile('./parser/examples/thismonth.html', 'utf-8', function (err, data) {
         var $ = cheerio.load(data);
