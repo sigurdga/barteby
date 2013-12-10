@@ -2,21 +2,21 @@
 # auroris server
 # chkconfig: 345 20 80
 # description: backend server
-# processname: boilerplate
+# processname: barteby
 
-DAEMON_PATH="/path/to/boilerplate"
+DAEMON_PATH="/srv/barteby/barteby"
 
-DAEMON="node /path/to/boilerplate/cluster.js"
+DAEMON="node /srv/barteby/barteby/cluster.js"
 DAEMONOPTS=""
 
-NAME=boilerplate
-DESC="boilerplate"
+NAME=barteby
+DESC="barteby"
 PIDFILE=/var/run/$NAME.pid
-LOGFILE=/path/to/logdir/server.log
+LOGFILE=/srv/barteby/server.log
 SCRIPTNAME=/etc/init.d/$NAME
 
 export NODE_ENV=production
-export PORT=12345
+export PORT=13443
 export DB_NAME=test
 
 case "$1" in
