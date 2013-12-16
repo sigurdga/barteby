@@ -33,7 +33,7 @@ module.exports.index = function(req, res) {
         'Sverresborg Trøndelag Folkemuseum': {lat: 63.421408, lon: 10.356803},
         'Vitenskapsmuseet': {lat: 63.429107, lon: 10.386844},
         'Kulturbunker Dora': {lat: 63.439433,  lon: 10.421433},
-        'Trondheim folkebibliotek': {lat: 63.439433, lon: 10.421433},
+        'Trondheim folkebibliotek': {lat: 63.430401, lon: 10.401118},
         'Trøndelag Teater': {lat: 63.429316, lon: 10.391333}
     };
 
