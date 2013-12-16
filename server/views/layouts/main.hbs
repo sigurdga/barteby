@@ -42,9 +42,12 @@
         return filter(f, date, category);
         });
     });
-    $('#dates').on("click", "input", function (event) {
+    $('#dates').on("click", "label", function (event) {
         var elem = $(this);
         map.markerLayer.setFilter(function (f) {
+        $('#dates label').removeClass("active");
+        elem.addClass("active");
+        elem.find('input').first().attr('checked', 'checked');
         var date = $('#dates :checked');
         var category = $('#filters :checked');
         return filter(f, date, category);
@@ -85,7 +88,7 @@
               });
               map.markerLayer.setGeoJSON(geoJson);
               $.each(dates, function (date, t) {
-                  $('#dates').append('<input type="radio" name="date" id="date-' + date + '" data-filter-date="' + date + '"><label for="filter-' + date + '">' + date.split("-")[2] + '</label>');
+                  $('#dates').append('<label for="filter-' + date + '" id="' + date + '"><input type="radio" name="date" id="date-' + date + '" data-filter-date="' + date + '">' + date.split("-")[2] + '</label>');
               });
               map.markerLayer.setFilter(function (f) {
                   return false;
