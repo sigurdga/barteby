@@ -1,19 +1,33 @@
-#!/bin/bash
-# auroris server
-# chkconfig: 345 20 80
-# description: backend server
-# processname: barteby
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:             barteby
+# Required-Start:       $syslog $remote_fs
+# Required-Stop:        $syslog $remote_fs
+# Should-Start:         $local_fs
+# Should-Stop:          $local_fs
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    barteby web site
+# Description:          barteby web site
+### END INIT INFO
 
-DAEMON_PATH="/srv/barteby/barteby"
 
-DAEMON="node /srv/barteby/barteby/cluster.js"
-DAEMONOPTS=""
-
+# Adapted redis init file
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/srv/barteby/barteby/cluster.js
+DAEMON_ARGS=
 NAME=barteby
-DESC="barteby"
-PIDFILE=/var/run/$NAME.pid
+DESC=barteby
+USER=www-data
+GROUP=www-data
+
+RUNDIR=/var/run/strekmann
+PIDFILE=$RUNDIR/barteby.pid
 LOGFILE=/srv/barteby/server.log
-SCRIPTNAME=/etc/init.d/$NAME
+
+test -x $DAEMON || exit 0
+
+set -e
 
 export NODE_ENV=production
 export PORT=13443
@@ -21,48 +35,48 @@ export DB_NAME=test
 
 case "$1" in
 start)
-    printf "%-50s" "Starting $NAME..."
-    cd $DAEMON_PATH
-    PID=`$DAEMON $DAEMONOPTS >> $LOGFILE 2>&1 & echo $!`
-    #echo "Saving PID" $PID " to " $PIDFILE
-        if [ -z $PID ]; then
-            printf "%s\n" "Fail"
-        else
-            echo $PID > $PIDFILE
-            printf "%s\n" "Ok"
-        fi
-;;
-status)
-        printf "%-50s" "Checking $NAME..."
-        if [ -f $PIDFILE ]; then
-            PID=`cat $PIDFILE`
-            if [ -z "`ps axf | grep ${PID} | grep -v grep`" ]; then
-                printf "%s\n" "Process dead but pidfile exists"
-            else
-                echo "Running"
-            fi
-        else
-            printf "%s\n" "Service not running"
-        fi
-;;
+    echo -n "Starting $DESC: "
+    touch $PIDFILE
+    chown $USER:$GROUP $PIDFILE
+    chmod 755 $RUNDIR
+
+    if start-stop-daemon --start --quiet --umask 007 -m --pidfile $PIDFILE --chuid $USER:$GROUP --background --exec $DAEMON >> $LOGFILE
+    then
+            echo "$NAME."
+    else
+            echo "failed"
+    fi
+    ;;
 stop)
-        printf "%-50s" "Stopping $NAME"
-            PID=`cat $PIDFILE`
-            cd $DAEMON_PATH
-        if [ -f $PIDFILE ]; then
-            kill -HUP $PID
-            printf "%s\n" "Ok"
-            rm -f $PIDFILE
-        else
-            printf "%s\n" "pidfile not found"
-        fi
-;;
-restart)
+    echo -n "Stopping $DESC: "
+    if start-stop-daemon --stop --retry forever/TERM/1 --quiet --oknodo --pidfile $PIDFILE
+    then
+        echo "$NAME."
+    else
+        echo "failed"
+    fi
+    rm -f $PIDFILE
+    sleep 1
+    ;;
+restart|force-reload)
     $0 stop
     $0 start
-;;
+    ;;
+status)
+    echo -n "$DESC is "
+    if start-stop-daemon --stop --quiet --signal 0 --pidfile ${PIDFILE}
+    then
+            echo "running"
+    else
+            echo "not running"
+            exit 1
+    fi
+    ;;
 
 *)
-        echo "Usage: $0 {status|start|stop|restart}"
-        exit 1
+    echo "Usage: $0 {start|stop|restart|force-reload|status}"
+    exit 1
+    ;;
 esac
+
+exit 0
