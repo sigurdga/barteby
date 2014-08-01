@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-var app = require('./server/app'),
-    http = require('http'),
+
+var http = require('http'),
     cluster = require('cluster'),
-    numCPU = 1, //require('os').cpus().length,
-    i = 0;
+    numCPU = 1, //Math.floor(require('os').cpus().length / 2),
+    env = process.env.NODE_ENV || 'development',
+    i = 0,
+    stamp = new Date().getTime();
 
 if (cluster.isMaster){
     for (i; i<numCPU; i++){
@@ -11,21 +13,25 @@ if (cluster.isMaster){
     }
 
     cluster.on('fork', function(worker){
-        console.log('forked worker ' + worker.process.pid);
+        console.info('* forked worker %s', worker.process.pid);
     });
 
     cluster.on('exit', function(worker, code, signal){
-        console.log('worker ' + worker.process.pid + ' died');
+        console.info('# worker %s died [%s]. Spawning new!', worker.process.pid, code);
         cluster.fork();
     });
 } else {
     // -- database
-    var mongoose = require('mongoose');
-    app.db = mongoose.connect('mongodb://localhost/' + app.conf.db_name);
+    var mongoose = require('mongoose'),
+        settings = require('./server/settings'),
+        app = require('./server/app');
+
+    app.db = mongoose.connect(settings.mongo.servers.join(','), {replSet: {rs_name: settings.mongo.replset}});
+    app.stamp = stamp;
 
     // -- handle node exceptions
     process.on('uncaughtException', function(err){
-        console.error('uncaughtException', err.message);
+        console.error(new Date().toString(), 'uncaughtException', err.message);
         console.error(err.stack);
         process.exit(1);
     });

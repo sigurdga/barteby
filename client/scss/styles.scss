@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+// our variables
+@import "settings";
+
+// normalize lib
+@import "normalize";
+
+// foundation lib
+@import "foundation";
+
+
+// font-awesome
+@import "font-awesome";
+
+// our styles
+.button {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ie-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+    border: none;
+}
+.button:hover {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+nav.top-bar {
+    margin-bottom: 0.5rem;
+}
+
+nav a:hover {
+    text-decoration: none;
+}
+
+html {
+    min-height: 100%;
+    background: #fff;
+}
+
+
+.listair {
+    padding: 0.625em 0;
+}
+
+#dates {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 20px;
+    label {
+        display: inline-block;
+        padding: 0 5px;
+        font-size: 1rem;
+    }
+    input[type="radio"] {
+        display: none;
+    }
+    .active {
+        background-color: #87c2de;
+    }
+}
+
+#map {
+    height: 80%;
+}

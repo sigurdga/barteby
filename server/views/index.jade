@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  #dates
+  #filters
+    input#filter-all(type="radio" name="category" checked)
+    label(for="filter-all") Alle
+  #map
+
+block javascript
+  script
+    | require('s7n').map.loadMap();

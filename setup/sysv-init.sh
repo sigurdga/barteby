@@ -11,27 +11,28 @@
 # Description:          barteby web site
 ### END INIT INFO
 
-
-# Adapted redis init file
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/srv/barteby/barteby/cluster.js
-DAEMON_ARGS=
 NAME=barteby
 DESC=barteby
+PORT=13443
+
+DAEMON=/srv/$NAME/$NAME/cluster.js
+DAEMON_ARGS=
 USER=www-data
 GROUP=www-data
 
-RUNDIR=/var/run/strekmann
-PIDFILE=$RUNDIR/barteby.pid
-LOGFILE=/srv/barteby/server.log
+RUNDIR=/var/run/$NAME
+PIDFILE=$RUNDIR/$NAME.pid
+LOGFILE=/srv/$NAME/server.log
+# Adapted redis init file
 
 test -x $DAEMON || exit 0
 
 set -e
 
 export NODE_ENV=production
-export PORT=13443
-export DB_NAME=test
+export PORT
+export DB_NAME=$NAME
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 case "$1" in
 start)
