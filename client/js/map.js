@@ -19,30 +19,27 @@ module.exports.loadMap = function () {
         'Samfunn': 'town-hall'
     };
     $.each(categories, function (label, category) {
-        $('#filters').append('<input type="radio" name="category" id="filter-' +
+        $('#filters').append('<li><input type="radio" name="category" id="filter-' +
                              category + '" data-filter="' + category + '"><label for="filter-' + category +
-                             '">' + label + '</label>');
+                             '">' + label + '</label></li>');
     });
     function filter(f, date, category) {
         return f.properties.date === date.attr('data-filter-date') && (category.attr("id") === "filter-all" || f.properties.category === category.attr('data-filter'));
     }
-    $('#filters').on("click", "input", function (event) {
-        map.markerLayer.setFilter(function (f) {
-            var date = $('#dates :checked');
-            var category = $('#filters :checked');
-            return filter(f, date, category);
-        });
+    var filterwrapper = function (f) {
+        var date = $('#dates :checked');
+        var category = $('#filters :checked');
+        return filter(f, date, category);
+    };
+    $('#filters').on("change", "input[type=radio]", function (event) {
+        $('#filters li').removeClass("active");
+        $(this).parents('li').addClass("active");
+        map.markerLayer.setFilter(filterwrapper);
     });
-    $('#dates').on("click", "label", function (event) {
-        var elem = $(this);
-        map.markerLayer.setFilter(function (f) {
-            $('#dates label').removeClass("active");
-            elem.addClass("active");
-            elem.find('input').first().attr('checked', 'checked');
-            var date = $('#dates :checked');
-            var category = $('#filters :checked');
-            return filter(f, date, category);
-        });
+    $('#dates').on("change", "input[type=radio]", function (event) {
+        $('#dates li').removeClass("active");
+        $(this).parents('li').addClass("active");
+        map.markerLayer.setFilter(filterwrapper);
     });
     $.ajax('/api/data/', {
         success: function (data) {
@@ -66,7 +63,7 @@ module.exports.loadMap = function () {
                         "properties": {
                             "title": marker.title,
                             "description": marker.location,
-                            "date": marker.date,
+                            "date": moment(marker.date).format(),
                             "time": marker.time,
                             "category": icon,
                             "icon": {
@@ -78,14 +75,10 @@ module.exports.loadMap = function () {
             });
             map.markerLayer.setGeoJSON(geoJson);
             $.each(dates, function (date, t) {
-                $('#dates').append('<label for="filter-' + date + '" id="' + date + '"><input type="radio" name="date" id="date-' + date + '" data-filter-date="' + date + '">' + date.split("-")[2] + '</label>');
+                var d = moment(date);
+                $('#dates').append('<li><input type="radio" name="date" id="date-' + date + '" data-filter-date="' + date + '"><label for="date-' + date + '" id="' + date + '">' + d.format("Do MMMM") + '</label></li>');
             });
-            map.markerLayer.setFilter(function (f) {
-                return false;
-            });
-            var today = $('#dates input').first();
-            today.attr('checked', 'checked');
-            today.trigger('click');
+            $('#dates input').first().click();
         }
     });
 };

@@ -47,20 +47,45 @@ html {
     padding: 0.625em 0;
 }
 
+.fullheight {
+    height: 100%;
+}
+
 #dates {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    height: 20px;
-    label {
-        display: inline-block;
-        padding: 0 5px;
-        font-size: 1rem;
+    margin-left: 0;
+    li {
+        list-style: none outside none;
+        input[type="radio"] {
+            display: none;
+        }
     }
-    input[type="radio"] {
-        display: none;
+    label {
+        padding: 5px;
+        font-size: 1rem;
     }
     .active {
         background-color: #87c2de;
+    }
+}
+#filters {
+    margin-left: 0;
+    li {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        float: left;
+        background-color: $secondary-color;
+        label {
+            display: inline-block;
+            padding: 5px;
+            font-size: 1rem;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        &:hover,
+        &.active {
+            background-color: #87c2de;
+        }
     }
 }
 

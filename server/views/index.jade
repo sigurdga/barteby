@@ -1,11 +1,15 @@
 extends layout
 
 block content
-  #dates
-  #filters
-    input#filter-all(type="radio" name="category" checked)
-    label(for="filter-all") Alle
-  #map
+  .columns.medium-9.fullheight
+    #map
+    ul#filters
+      li.active
+        input#filter-all(type="radio" name="category" checked)
+        label(for="filter-all") Alle
+  .columns.medium-3
+    ul#dates
+
 
 block javascript
   script

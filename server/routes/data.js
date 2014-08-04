@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 module.exports.index = function(req, res) {
     var fs = require('fs'),
     cheerio = require('cheerio'),
@@ -76,7 +78,7 @@ module.exports.index = function(req, res) {
                     title: title,
                     location: location,
                     category: category,
-                    date: get_date(date),
+                    date: moment(get_date(date)).format(),
                     time: time,
                     lat: hit.lat,
                     lon: hit.lon
@@ -85,6 +87,6 @@ module.exports.index = function(req, res) {
                 console.log(location, "not found");
             }
         });
-        return res.json(200, markers);
+        return res.status(200).json(markers);
     });
 };
