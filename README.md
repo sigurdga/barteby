@@ -1,7 +1,8 @@
-Node Boilerplate
-================
+Barteby
+=======
 
-This is a boilerplate inteded to get you fast up to speed when developing node.js web applications.
+Cultural map for Trondheim, reading RSS, making markers on map. Under slow
+development.
 
 Based on
 --------
@@ -16,9 +17,9 @@ Based on
 Howto
 -----
 
-* Clone this repository: ``git clone git://github.com/strekmann/node-boilerplate.git``
-* Change directory: ``cd node-boilerplate``
-* Install dependencies: ``npm install``
+* Clone this repository: ``git clone git://github.com/sigurdga/barteby.git``
+* Change directory: ``cd barteby``
+* Install dependencies: ``make install``
 * Create a settings file, and remember to edit it: ``cp server/settings.example.js server/settings.js``
 * See that everything works on your side: ``make test``
 * Run: ``node cluster``
@@ -38,4 +39,4 @@ Please use the issues and pull requests at Github.
 
 Copyright and license
 ---------------------
-Copyright © 2013 Jørgen Bergquist and Sigurd Gartmann, released under the [MIT license](https://github.com/strekmann/node-boilerplate/blob/master/LICENSE).
+Copyright © 2014 Sigurd Gartmann, released under the [AGPL license](https://github.com/sigurdga/barteby/blob/master/LICENSE).
