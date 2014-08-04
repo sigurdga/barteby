@@ -4,7 +4,7 @@ var express = require('express'),
     ensureAuthenticated = require('../lib/middleware').ensureAuthenticated;
 
 router.get('/', function(req, res, next){
-    res.render('index');
+    res.render('index', {title: "Barteby"});
 });
 
 router.get('/login', function(req, res, next){
