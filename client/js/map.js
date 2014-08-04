@@ -1,5 +1,14 @@
 module.exports.loadMap = function () {
-    var map = L.mapbox.map('map', 'sigurdga.gemd0c1b')
+
+    // limits
+    var sw = L.latLng(63.3295, 10.0250),
+        ne = L.latLng(63.4654, 10.7144),
+        bounds = L.latLngBounds(sw, ne);
+
+    var map = L.mapbox.map('map', 'sigurdga.gemd0c1b', {
+        maxBounds: bounds,
+        minZoom: 11
+    })
     .setView([63.4315, 10.3992], 13);
     map.markerLayer.on('layeradd', function (e) {
         var marker = e.layer,
