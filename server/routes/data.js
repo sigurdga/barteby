@@ -62,7 +62,7 @@ module.exports.index = function(req, res) {
         return year + '-' + month + '-' + day;
     }
 
-    fs.readFile('./parser/examples/thismonth.html', 'utf-8', function (err, data) {
+    fs.readFile(__dirname + '/../../parser/examples/thismonth.html', 'utf-8', function (err, data) {
         var $ = cheerio.load(data);
         $('div.event').each(function (i, event) {
             var event_date = $(event).children('.event_date');
