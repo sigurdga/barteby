@@ -4,8 +4,8 @@ Restart=always
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=barteby
-User=barteby
-Group=barteby
+User=www-data
+Group=www-data
 Environment=NODE_ENV=production PORT=15001
 
 [Install]
