@@ -27,7 +27,7 @@
     "libby": "^2.0.0",
     "moment": "2.x",
     "mongodb": "^2.0.45",
-    "mongoose": "^4.1.0",
+    "mongoose": "^5.9.28",
     "passport": "^0.3.0",
     "passport-google-oauth": "^0.2.0",
     "redis": "^2.1.0",
